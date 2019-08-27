@@ -1,14 +1,15 @@
-document.getElementById('shopping').onclick = function(e){
-  if(e.target.className.includes('btn-delete')){
+document.getElementById('shopping').onclick = function (e) {
+  if (e.target.className.includes('btn-delete')) {
     e.target.parentNode.remove()
   }
 }
 
 function getTotalPrice() {
   console.log('get total price')
+  let sum = 0;
   let rows = document.getElementsByClassName('row');
-  for(let r=0; r<rows.length; r++){
-    let row = rows[r] 
+  for (let r = 0; r < rows.length; r++) {
+    let row = rows[r]
     let price = document.querySelector(`#shopping > div:nth-child(${r+1}) .initialPrice`)
     console.log(price.innerText)
 
@@ -16,15 +17,20 @@ function getTotalPrice() {
     console.log(quantity.value)
 
 
-    let subtotal = Number(price.innerText)*Number(quantity.value)
+    let subtotal = Number(price.innerText) * Number(quantity.value);
+    if(isNaN(subtotal)){
+      subtotal = 0;
+    }
     console.log(subtotal)
 
     document.querySelector(`#shopping > div:nth-child(${r+1}) .individualTotal`).innerHTML = subtotal
-
+    sum += subtotal;
   }
-} 
 
-function createNewItem(){
+  document.querySelector("body > div:nth-child(4) > h2 > span").innerHTML = sum;
+}
+
+function createNewItem() {
   let name = window.prompt('Product?')
   let price = window.prompt('Price?')
   let rowHtml = `<div class="row">
@@ -54,12 +60,9 @@ function createNewItem(){
 
 window.onload = init
 
-function init(){
+function init() {
   var calculatePriceButton = document.getElementById('calc-prices-button');
   var createItemButton = document.getElementById('new-item-create');
   calculatePriceButton.onclick = getTotalPrice;
   createItemButton.onclick = createNewItem;
 };
-
-
-
